@@ -1,3 +1,9 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +41,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.homePageStyle {
+  position: "absolute";
+  margin-left: "auto";
+  margin-right: "auto";
+  left: 0;
+  right: 0;
+  text-align: "center";
+  z-index: 9;
+  width: 640px;
+  height: 480px;
+}
+
+.divStyle {
+  display: "flex";
+  justify-content: "center";
+  align-items: "center";
+  padding-top: 20%;
 }

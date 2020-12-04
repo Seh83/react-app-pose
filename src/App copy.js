@@ -11,9 +11,12 @@ function App() {
   const [isUserAuthenticated, setUserAuthenticated] = useState(false);
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+
   const [toggleText, setToggleText] = useState("start");
-  const [run, setRun] = useState(true);
-  const [interval, testInterval] = useState();
+
+  let run = false;
+
+  let interval;
 
   const styles = {
     backgroundImage: `url(${Background})`,
@@ -34,11 +37,9 @@ function App() {
       multiplier: 0.75,
     });
 
-    testInterval(
-      setInterval(() => {
-        detect(net);
-      }, 300)
-    );
+    interval = setInterval(() => {
+      detect(net);
+    }, 300);
   };
 
   const detect = async (net) => {
@@ -60,12 +61,12 @@ function App() {
       // Make Detections
       const pose = await net.estimateSinglePose(video);
       console.log(pose);
+
       drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
     }
   };
 
   const drawCanvas = (pose, video, videoWidth, videoHeight, canvas) => {
-    console.log("drawCanvas");
     //Creating a 2D Canvas
     const ctx = canvas.current.getContext("2d");
     canvas.current.width = videoWidth;
@@ -77,15 +78,14 @@ function App() {
   };
 
   function toggleHandler() {
-    if (run) {
-      runPosenet();
-      setToggleText("stop");
-    } else if (!run) {
-      clearInterval(interval);
-      testInterval(null);
+    if (!run) {
       setToggleText("start");
+      runPosenet();
+    } else {
+      setToggleText("stop");
+      clearInterval(interval);
     }
-    setRun(!run);
+    run = !run;
   }
 
   if (isUserAuthenticated) {
